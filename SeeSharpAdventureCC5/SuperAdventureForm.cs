@@ -272,11 +272,20 @@ namespace SuperAdventureNamespace
             }
             else
             {
+                cboWeapons.SelectedIndexChanged -= cboWeapons_SelectedIndexChanged;
                 cboWeapons.DataSource = weapons;
+                cboWeapons.SelectedIndexChanged += cboWeapons_SelectedIndexChanged;
                 cboWeapons.DisplayMember = "Name";
                 cboWeapons.ValueMember = "ID";
 
-                cboWeapons.SelectedIndex = 0;
+                if (_player.CurrentWeapon != null)
+                {
+                    cboWeapons.SelectedItem = _player.CurrentWeapon;
+                }
+                else
+                {
+                    cboWeapons.SelectedIndex = 0;
+                }
             }
         }
 
@@ -310,7 +319,13 @@ namespace SuperAdventureNamespace
                 cboPotions.SelectedIndex = 0;
             }
         }
-        
+
+        //gets selected weapon and saves it to the current weapon property
+        private void cboWeapons_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            _player.CurrentWeapon = (Weapon)cboWeapons.SelectedItem;
+        }
+
         private void btnUsePotion_Click(object sender, EventArgs e)
         {
             // Get the currently selected potion from the combobox
